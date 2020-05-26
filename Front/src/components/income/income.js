@@ -19,11 +19,6 @@ const Income = () => {
         frequency: null,
         amount: null,
       },
-    //   {
-    //     name: "test",
-    //     frequency: null,
-    //     amount: null,
-    //   },
     ],
   });
   console.log(netIncomeState, "TESTERINOOO");
@@ -40,26 +35,56 @@ const Income = () => {
 
   const classes = useStyles();
 
+  //HANDLE INPUT CHANGES
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
     console.log(e.target, "TARGET");
 
     //copy of array of objects
-    let orignalIncomeTypeObj = [...netIncomeState.incomeTypes];
+    let orignalIncomeTypeArrayOfObj = [...netIncomeState.incomeTypes];
     //modifying specific value
-    orignalIncomeTypeObj[index][fieldType] = e.target.value;
+    orignalIncomeTypeArrayOfObj[index][fieldType] = e.target.value;
     setNetIncomeState({
       ...netIncomeState,
-      incomeTypes: orignalIncomeTypeObj,
+      incomeTypes: orignalIncomeTypeArrayOfObj,
     });
   };
 
+  //HANDLE ADDING A NEW INCOME TYPE
   const addIncomeTypeHandler = (e) => {
     e.preventDefault();
+    let orignalIncomeTypeArrayOfObj = [...netIncomeState.incomeTypes];
+
+    orignalIncomeTypeArrayOfObj.push({
+      name: "New stream",
+      frequency: null,
+      amount: null,
+    });
+
     setNetIncomeState({
-        ...netIncomeState,
-        incomeTypes: {name:'peter'},
-      });
+      ...netIncomeState,
+      incomeTypes: orignalIncomeTypeArrayOfObj,
+    });
+  };
+
+  //HANDLE REMOVING AN INCOME TYPE
+  const removeNewIncomeTypeHandler = (index) => (e) => {
+     //copy of array of objects
+     e.preventDefault();
+     e.stopPropagation();
+     let orignalIncomeTypeArrayOfObj = [...netIncomeState.incomeTypes];
+     let newArrayOfObjs =orignalIncomeTypeArrayOfObj.filter((item, i) => {
+        if(i !== index) {
+            return item
+          }
+     })
+
+     //modifying specific value
+         setNetIncomeState({
+       ...netIncomeState,
+       incomeTypes: newArrayOfObjs,
+     });
+
   };
 
   return (
@@ -69,6 +94,13 @@ const Income = () => {
         return (
           <>
             <div key={index} className={formStyles.form}>
+              {index > 0 ? (
+                <button onClick={removeNewIncomeTypeHandler(index)}>
+                  remove
+                </button>
+              ) : (
+                <div> ? </div>
+              )}
               <FormControl className={classes.formControl}>
                 <InputLabel data-id={index} id={item.name}>
                   {item.name}
@@ -90,6 +122,7 @@ const Income = () => {
                 </Select>
               </FormControl>
               <input
+                data-id={index}
                 required
                 name={item.name}
                 id={`input-${index}`}
