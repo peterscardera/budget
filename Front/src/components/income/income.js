@@ -69,20 +69,21 @@ const Income = () => {
 
   //HANDLE REMOVING AN INCOME TYPE
   const removeNewIncomeTypeHandler = (index) => (e) => {
+    console.log(index, 'INDEX DELETING')
      //copy of array of objects
-     e.preventDefault();
-     e.stopPropagation();
      let orignalIncomeTypeArrayOfObj = [...netIncomeState.incomeTypes];
-     let newArrayOfObjs =orignalIncomeTypeArrayOfObj.filter((item, i) => {
-        if(i !== index) {
-            return item
-          }
-     })
+     let objDeleting = orignalIncomeTypeArrayOfObj.splice(index,1)
+
+
+    //  let newArrayOfObjs =orignalIncomeTypeArrayOfObj.filter((item, i) => {
+    //     if(i !== index) {
+    //         return item
+    //       }
 
      //modifying specific value
          setNetIncomeState({
        ...netIncomeState,
-       incomeTypes: newArrayOfObjs,
+       incomeTypes: orignalIncomeTypeArrayOfObj,
      });
 
   };
@@ -93,7 +94,7 @@ const Income = () => {
       {netIncomeState.incomeTypes.map((item, index) => {
         return (
           <>
-            <div key={index} className={formStyles.form}>
+            <div key={`${item.name}`} className={formStyles.form}>
               {index > 0 ? (
                 <button onClick={removeNewIncomeTypeHandler(index)}>
                   remove
@@ -102,7 +103,7 @@ const Income = () => {
                 <div> ? </div>
               )}
               <FormControl className={classes.formControl}>
-                <InputLabel data-id={index} id={item.name}>
+                <InputLabel id={item.name}>
                   {item.name}
                 </InputLabel>
                 <Select
@@ -122,7 +123,6 @@ const Income = () => {
                 </Select>
               </FormControl>
               <input
-                data-id={index}
                 required
                 name={item.name}
                 id={`input-${index}`}
