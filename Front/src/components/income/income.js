@@ -9,7 +9,7 @@ const Income = () => {
       <CashFlow
       defaultLabel="Net Salary"
       placeholderForNew ="Income Type"
-        
+      type="income"
       ></CashFlow>
     </>
   );

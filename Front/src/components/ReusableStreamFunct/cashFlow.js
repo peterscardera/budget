@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 //general styles
 import formStyles from "../form.module.scss";
@@ -11,11 +11,18 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
+import { BudgetContext } from "../../budgetContext"
+
 // REUSABLE FUNCTIONAL
 let counterIds = 0;
-const CashFlow = ({ defaultLabel, placeholderForNew }) => {
+const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
+  console.log(type,'TYPE SHOULD HAve 2')
+  const { incomeState, expenseState, recordTypingIncome,recordTypingExpense } = useContext(BudgetContext)
+  console.log(incomeState, "INSOMCE STATE ")
+  console.log(expenseState, "EXPENSE STATEEEE")
   const [labelState, setLabelState] = useState("");
-
+  const [ currentMapState, setCurrentMapState] = useState(null)
+  console.log(currentMapState,'currentmap')
   const [netCashState, setNetCashState] = useState([
     {
       name: defaultLabel,
@@ -25,6 +32,17 @@ const CashFlow = ({ defaultLabel, placeholderForNew }) => {
     },
   ]);
   console.log(netCashState, "TEEEEST");
+
+
+  useEffect(()=> {
+    if(type ==="income"){
+      setCurrentMapState(incomeState)
+    } else if (type === "expense"){
+      setCurrentMapState(expenseState)
+    }
+  },[])
+
+ 
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -46,12 +64,16 @@ const CashFlow = ({ defaultLabel, placeholderForNew }) => {
   //HANDLE INPUT CHANGES EXISING STREAM
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
-
+    let value = e.target.value
     //copy of array of objects
-    let copyArray = [...netCashState];
+    // let copyArray = [...netCashState];
     //modifying specific value
-    copyArray[index][fieldType] = e.target.value;
-    setNetCashState(copyArray);
+    // copyArray[index][fieldType] = e.target.value;
+    // setNetCashState(copyArray);
+    recordTypingIncome({fieldType, index, value })
+
+
+
   };
 
   //HANDLE ADDING A NEW INCOME TYPE
@@ -83,7 +105,7 @@ const CashFlow = ({ defaultLabel, placeholderForNew }) => {
 
   return (
     <>
-      {netCashState.map((item, index) => {
+      { currentMapState !== null && currentMapState.map((item, index) => {
         return (
           <div key={`${item.id}`} className={formStyles.form}>
             {index > 0 ? (
@@ -105,7 +127,7 @@ const CashFlow = ({ defaultLabel, placeholderForNew }) => {
                 name={item.name}
                 labelId={item.name}
                 id={`select-${index}`}
-                value={netCashState[`${index}`].frequency}
+                value={currentMapState[`${index}`].frequency}
                 onChange={handleChange("frequency", index)}
               >
                   {/* the value had to math the state freq value below (to have a default value placeholder) */}
@@ -125,7 +147,7 @@ const CashFlow = ({ defaultLabel, placeholderForNew }) => {
               required
               name={item.name}
               id={`input-${index}`}
-              value={netCashState.amount}
+              value={currentMapState[`${index}`].amount}
               onChange={handleChange("amount", index)}
               type="text"
               placeholder="0.00"

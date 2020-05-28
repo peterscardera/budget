@@ -7,7 +7,8 @@ const Expenses = () => {
       <>
       Expenses
         <CashFlow
-        defaultLabel="Credit Card"
+        defaultLabel="Cell phone"
+        type="expense"
         placeholderForNew ="Expense Type"
         ></CashFlow>
       </>
