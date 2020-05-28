@@ -40,6 +40,13 @@ const incomeReducer = (state, action) => {
 
       return [...copyArray];
     }
+    case "remove-income-stream": {
+      let copyArray = [...state];
+
+      const newValues = copyArray.filter((item, i) => i !== action.index);
+
+      return [...newValues];
+    }
   }
 };
 const expenseReducer = (state, action) => {
@@ -60,6 +67,13 @@ const expenseReducer = (state, action) => {
       });
 
       return [...copyArray];
+    }
+    case "remove-expense-stream": {
+      let copyArray = [...state];
+
+      const newValues = copyArray.filter((item, i) => i !== action.index);
+
+      return [...newValues];
     }
   }
 };
@@ -100,9 +114,20 @@ export const BudgetProvider = ({ children }) => {
     },
     [dispatchExpense]
   );
+  const removeIncome = React.useCallback(
+    (data) => {
+      dispatchIncome({ type: "remove-income-stream", ...data });
+    },
+    [dispatchIncome]
+  );
 
-  
-  console.log("INCOME STAAATE!!", incomeState);
+  const removeExpense = React.useCallback(
+    (data) => {
+      dispatchExpense({ type: "remove-expense-stream", ...data });
+    },
+    [dispatchExpense]
+  );
+
   return (
     <BudgetContext.Provider
       value={{
@@ -112,6 +137,8 @@ export const BudgetProvider = ({ children }) => {
         recordTypingExpense,
         addIncome,
         addExpense,
+        removeIncome,
+        removeExpense,
       }}
     >
       {children}

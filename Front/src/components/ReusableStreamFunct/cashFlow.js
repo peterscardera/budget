@@ -23,31 +23,14 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
     recordTypingExpense,
     addIncome,
     addExpense,
+    removeIncome,
+    removeExpense,
   } = useContext(BudgetContext);
 
-  console.log(incomeState, "INSOMCE STATE ");
-  console.log(expenseState, "EXPENSE STATEEEE");
+
 
   const [labelState, setLabelState] = useState("");
   const [currentMapState, setCurrentMapState] = useState(null);
-
-  const [netCashState, setNetCashState] = useState([
-    {
-      name: defaultLabel,
-      id: counterIds,
-      frequency: "null",
-      amount: "null",
-    },
-  ]);
-  // console.log(netCashState, "TEEEEST");
-
-  useEffect(() => {
-    if (type === "income") {
-      setCurrentMapState(incomeState);
-    } else if (type === "expense") {
-      setCurrentMapState(expenseState);
-    }
-  }, [incomeState, expenseState]);
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -58,8 +41,17 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
       marginTop: theme.spacing(2),
     },
   }));
-
   const classes = useStyles();
+
+ 
+// Will set the array of objects to a local state. Since CashFlow is being called twice (income.js and expense.js)
+  useEffect(() => {
+    if (type === "income") {
+      setCurrentMapState(incomeState);
+    } else if (type === "expense") {
+      setCurrentMapState(expenseState);
+    }
+  }, [incomeState, expenseState]);
 
   //HANDLE INPUT CHANGES FOR NEW LABEL
   const handleLableInputChange = (e) => {
@@ -95,11 +87,14 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
   //HANDLE REMOVING AN INCOME TYPE
   const removeNewCashFlowTypeHandler = (index) => (e) => {
     console.log(index, "INDEX DELETING");
-    //copy of array of objects
-    const newValues = netCashState.filter((item, i) => i !== index);
 
-    //modifying specific value
-    setNetCashState(newValues);
+    if(type === "income"){
+      removeIncome({index})
+    }else if (type === "expense"){
+      removeExpense({index})
+    }
+
+  
   };
 
   return (
