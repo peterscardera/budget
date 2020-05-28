@@ -8,83 +8,110 @@ let initialIncomeState = [
   {
     name: "Net Salary",
     id: 0,
-    frequency: "null",
-    amount: 0,
+    frequency: null,
+    amount: null,
   },
 ];
 
 let initialExpenseState = [
-    {
-      name: "Cell Phone",
-      id: 0,
-      frequency: "null",
-      amount: 0,
-    },
-      
-  ];
+  {
+    name: "Cell Phone",
+    id: 0,
+    frequency: null,
+    amount: null,
+  },
+];
 const incomeReducer = (state, action) => {
-  console.log(action)
-    switch (action.type) {
-      case "record-typing-income": {
-        return {
-          ...state,
-          ...state[action.index][action.fieldType] = parseInt(action.value)
-        };
-      }
-      case "cancel": {
-        return {
-        //   ...state,
-        //   status: "idle",
-        //   selectedSeatId: null,
-        //   price: null
-        };
-      }
-    
-    }
-  };
-  const expenseReducer = (state, action) => {
-    console.log(action)
-    switch (action.type) {
-      case "record-typing-expense": {
-        return {
-          ...state,
-          ...state[action.index][action.fieldType] = parseInt(action.value)
-        };
-      }
-      case "cancel": {
-        return {
-        //   ...state,
-        //   status: "idle",
-        //   selectedSeatId: null,
-        //   price: null
-        };
-      }
-    
-    }
-  };
-  export const BudgetProvider = ({ children }) => {
-    const [incomeState, dispatchIncome] = useReducer(incomeReducer, initialIncomeState)
-    const [expenseState, dispatchExpense] = useReducer(expenseReducer, initialExpenseState)
-    console.log(incomeState,'incomeState')
+  switch (action.type) {
+    case "record-typing-income": {
+      let copyArray = [...state];
+      copyArray[action.index][action.fieldType] = action.value;
 
-  const recordTypingIncome = React.useCallback((data)=>{
-   
-    dispatchIncome({type: "record-typing-income",...data})
-  },[dispatchIncome])
+      return [...copyArray];
+    }
+    case "add-income-stream": {
+      let copyArray = [...state];
+      copyArray.push({
+        name: action.labelState,
+        id: action.counterIds,
+        frequency: null,
+        amount: null,
+      });
 
-  const recordTypingExpense = React.useCallback((data)=>{
-    dispatchExpense({type: "record-typing-expense",...data})
-  },[dispatchExpense])
-console.log(incomeState,'NEW STATE')
+      return [...copyArray];
+    }
+  }
+};
+const expenseReducer = (state, action) => {
+  switch (action.type) {
+    case "record-typing-expense": {
+      let copyArray = [...state];
+      copyArray[action.index][action.fieldType] = action.value;
+
+      return [...copyArray];
+    }
+    case "add-expense-stream": {
+      let copyArray = [...state];
+      copyArray.push({
+        name: action.labelState,
+        id: action.counterIds,
+        frequency: null,
+        amount: null,
+      });
+
+      return [...copyArray];
+    }
+  }
+};
+export const BudgetProvider = ({ children }) => {
+  const [incomeState, dispatchIncome] = useReducer(
+    incomeReducer,
+    initialIncomeState
+  );
+  const [expenseState, dispatchExpense] = useReducer(
+    expenseReducer,
+    initialExpenseState
+  );
+
+  const recordTypingIncome = React.useCallback(
+    (data) => {
+      dispatchIncome({ type: "record-typing-income", ...data });
+    },
+    [dispatchIncome]
+  );
+
+  const recordTypingExpense = React.useCallback(
+    (data) => {
+      dispatchExpense({ type: "record-typing-expense", ...data });
+    },
+    [dispatchExpense]
+  );
+
+  const addIncome = React.useCallback(
+    (data) => {
+      dispatchIncome({ type: "add-income-stream", ...data });
+    },
+    [dispatchIncome]
+  );
+
+  const addExpense = React.useCallback(
+    (data) => {
+      dispatchExpense({ type: "add-expense-stream", ...data });
+    },
+    [dispatchExpense]
+  );
+
+  
+  console.log("INCOME STAAATE!!", incomeState);
   return (
     <BudgetContext.Provider
       value={{
-       incomeState,
-       expenseState,
-       recordTypingIncome,
-       recordTypingExpense,
-
-
+        incomeState,
+        expenseState,
+        recordTypingIncome,
+        recordTypingExpense,
+        addIncome,
+        addExpense,
       }}
     >
       {children}

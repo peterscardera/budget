@@ -11,18 +11,26 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import { BudgetContext } from "../../budgetContext"
+import { BudgetContext } from "../../budgetContext";
 
 // REUSABLE FUNCTIONAL
 let counterIds = 0;
-const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
-  console.log(type,'TYPE SHOULD HAve 2')
-  const { incomeState, expenseState, recordTypingIncome,recordTypingExpense } = useContext(BudgetContext)
-  console.log(incomeState, "INSOMCE STATE ")
-  console.log(expenseState, "EXPENSE STATEEEE")
+const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
+  const {
+    incomeState,
+    expenseState,
+    recordTypingIncome,
+    recordTypingExpense,
+    addIncome,
+    addExpense,
+  } = useContext(BudgetContext);
+
+  console.log(incomeState, "INSOMCE STATE ");
+  console.log(expenseState, "EXPENSE STATEEEE");
+
   const [labelState, setLabelState] = useState("");
-  const [ currentMapState, setCurrentMapState] = useState(null)
-  console.log(currentMapState,'currentmap')
+  const [currentMapState, setCurrentMapState] = useState(null);
+
   const [netCashState, setNetCashState] = useState([
     {
       name: defaultLabel,
@@ -31,18 +39,15 @@ const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
       amount: "null",
     },
   ]);
-  console.log(netCashState, "TEEEEST");
+  // console.log(netCashState, "TEEEEST");
 
-
-  useEffect(()=> {
-    if(type ==="income"){
-      setCurrentMapState(incomeState)
-    } else if (type === "expense"){
-      setCurrentMapState(expenseState)
+  useEffect(() => {
+    if (type === "income") {
+      setCurrentMapState(incomeState);
+    } else if (type === "expense") {
+      setCurrentMapState(expenseState);
     }
-  },[])
-
- 
+  }, [incomeState, expenseState]);
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -64,32 +69,26 @@ const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
   //HANDLE INPUT CHANGES EXISING STREAM
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
-    let value = e.target.value
-    //copy of array of objects
-    // let copyArray = [...netCashState];
-    //modifying specific value
-    // copyArray[index][fieldType] = e.target.value;
-    // setNetCashState(copyArray);
-    recordTypingIncome({fieldType, index, value })
+    let value = parseInt(e.target.value);
 
-
-
+    if (type === "income") {
+      recordTypingIncome({ fieldType, index, value });
+    } else if (type === "expense") {
+      recordTypingExpense({ fieldType, index, value });
+    }
   };
 
   //HANDLE ADDING A NEW INCOME TYPE
-  const addIncomeTypeHandler = (e) => {
+  const addCashFlowTypeHandler = (e) => {
     e.preventDefault();
-    let copyArray = [...netCashState];
     counterIds++;
 
-    copyArray.push({
-      name: labelState,
-      id: counterIds,
-      frequency: "null",
-      amount: "null",
-    });
+    if (type === "income") {
+      addIncome({ labelState, counterIds });
+    } else if (type === "expense") {
+      addExpense({ labelState, counterIds });
+    }
 
-    setNetCashState(copyArray);
     setLabelState("");
   };
 
@@ -105,57 +104,58 @@ const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
 
   return (
     <>
-      { currentMapState !== null && currentMapState.map((item, index) => {
-        return (
-          <div key={`${item.id}`} className={formStyles.form}>
-            {index > 0 ? (
-              <button onClick={removeNewCashFlowTypeHandler(index)}>
-                remove
-              </button>
-            ) : (
-              <div> ? </div>
-            )}
-            <FormControl className={classes.formControl}>
-              <InputLabel
-                shrink
-                id="demo-simple-select-placeholder-label-label"
-              >
-                {item.name}
-              </InputLabel>
-              <Select
-                displayEmpty={true}
-                name={item.name}
-                labelId={item.name}
-                id={`select-${index}`}
-                value={currentMapState[`${index}`].frequency}
-                onChange={handleChange("frequency", index)}
-              >
+      {currentMapState !== null &&
+        currentMapState.map((item, index) => {
+          return (
+            <div key={`${item.id}`} className={formStyles.form}>
+              {index > 0 ? (
+                <button onClick={removeNewCashFlowTypeHandler(index)}>
+                  remove
+                </button>
+              ) : (
+                <div> ? </div>
+              )}
+              <FormControl className={classes.formControl}>
+                <InputLabel
+                  shrink
+                  id="demo-simple-select-placeholder-label-label"
+                >
+                  {item.name}
+                </InputLabel>
+                <Select
+                  displayEmpty={true}
+                  name={item.name}
+                  labelId={item.name}
+                  id={`select-${index}`}
+                  value={currentMapState[`${index}`].frequency}
+                  onChange={handleChange("frequency", index)}
+                >
                   {/* the value had to math the state freq value below (to have a default value placeholder) */}
-                <MenuItem selected disabled value={"null"}>
-                  <em>Choose Freq. </em>
-                </MenuItem>
-                <MenuItem value={253}>Daily</MenuItem>
-                <MenuItem value={52}>Weekly</MenuItem>
-                <MenuItem value={26}>Bi-Weekly</MenuItem>
-                <MenuItem value={12}>Monthly</MenuItem>
-                <MenuItem value={4}>Quarterly</MenuItem>
-                <MenuItem value={3}>Every 6 months</MenuItem>
-                <MenuItem value={1}>Anually</MenuItem>
-              </Select>
-            </FormControl>
-            <input
-              required
-              name={item.name}
-              id={`input-${index}`}
-              value={currentMapState[`${index}`].amount}
-              onChange={handleChange("amount", index)}
-              type="text"
-              placeholder="0.00"
-            />
-          </div>
-        );
-      })}
-      <form onSubmit={addIncomeTypeHandler}>
+                  <MenuItem selected disabled value={"null"}>
+                    <em>Choose Freq. </em>
+                  </MenuItem>
+                  <MenuItem value={253}>Daily</MenuItem>
+                  <MenuItem value={52}>Weekly</MenuItem>
+                  <MenuItem value={26}>Bi-Weekly</MenuItem>
+                  <MenuItem value={12}>Monthly</MenuItem>
+                  <MenuItem value={4}>Quarterly</MenuItem>
+                  <MenuItem value={3}>Every 6 months</MenuItem>
+                  <MenuItem value={1}>Anually</MenuItem>
+                </Select>
+              </FormControl>
+              <input
+                required
+                name={item.name}
+                id={`input-${index}`}
+                value={currentMapState[`${index}`].amount}
+                onChange={handleChange("amount", index)}
+                type="text"
+                placeholder="0.00"
+              />
+            </div>
+          );
+        })}
+      <form onSubmit={addCashFlowTypeHandler}>
         <label name="addLablel"></label>
         <input
           required
@@ -173,8 +173,7 @@ const CashFlow = ({defaultLabel, type, placeholderForNew }) => {
 
 export default CashFlow;
 
-
 //notes: i have initial state for some key values as "null" instead of null
-//VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null. 
+//VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null.
 // Consider using an empty string to clear the component or `undefined` for uncontrolled components.
 //https://github.com/facebook/react/issues/11417
