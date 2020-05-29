@@ -7,7 +7,7 @@ const Expenses = () => {
       <>
       Expenses
         <CashFlow
-        defaultLabel="Cell phone"
+        // defaultLabel="Cell phone"
         type="expense"
         placeholderForNew ="Expense Type"
         ></CashFlow>

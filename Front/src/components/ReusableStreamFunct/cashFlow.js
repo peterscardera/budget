@@ -13,9 +13,10 @@ import Select from "@material-ui/core/Select";
 
 import { BudgetContext } from "../../budgetContext";
 
-// REUSABLE FUNCTIONAL
+// Reusable functional component for expenses and income
+
 let counterIds = 0;
-const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
+const CashFlow = ({ type, placeholderForNew }) => {
   const {
     incomeState,
     expenseState,
@@ -26,9 +27,6 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
     removeIncome,
     removeExpense,
   } = useContext(BudgetContext);
-
-
-
   const [labelState, setLabelState] = useState("");
   const [currentMapState, setCurrentMapState] = useState(null);
 
@@ -43,8 +41,7 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
   }));
   const classes = useStyles();
 
- 
-// Will set the array of objects to a local state. Since CashFlow is being called twice (income.js and expense.js)
+  // Will set the array of objects to a local state. Since CashFlow is being called twice (income.js and expense.js)
   useEffect(() => {
     if (type === "income") {
       setCurrentMapState(incomeState);
@@ -86,15 +83,13 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
 
   //HANDLE REMOVING AN INCOME TYPE
   const removeNewCashFlowTypeHandler = (index) => (e) => {
-    console.log(index, "INDEX DELETING");
+   
 
-    if(type === "income"){
-      removeIncome({index})
-    }else if (type === "expense"){
-      removeExpense({index})
+    if (type === "income") {
+      removeIncome({ index });
+    } else if (type === "expense") {
+      removeExpense({ index });
     }
-
-  
   };
 
   return (
@@ -105,7 +100,7 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
             <div key={`${item.id}`} className={formStyles.form}>
               {index > 0 ? (
                 <button onClick={removeNewCashFlowTypeHandler(index)}>
-                  remove
+                  X
                 </button>
               ) : (
                 <div> ? </div>
@@ -141,7 +136,7 @@ const CashFlow = ({ defaultLabel, type, placeholderForNew }) => {
               <input
                 required
                 name={item.name}
-                id={`input-${index}`}
+                id={`input-${index}${type}`}
                 value={currentMapState[`${index}`].amount}
                 onChange={handleChange("amount", index)}
                 type="text"

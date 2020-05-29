@@ -1,9 +1,10 @@
-import React, { createContext, useState, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 
-// Simply a higher up context. I dont see the need for reducers at this point
 
+//incomeState and expenseState are passed to the cashFlow JS which is used twice. First by income.js then expense.js
 export const BudgetContext = createContext();
 
+//------------------- 3 INITIAL STATES------------ only exp and income fed to CashFlow.js
 let initialIncomeState = [
   {
     name: "Net Salary",
@@ -21,6 +22,27 @@ let initialExpenseState = [
     amount: null,
   },
 ];
+
+let initialSavingsState = [ 
+  {
+    name: "Savings Account",
+    id: 0,
+    amount:null,
+  },
+  {
+    name: "TFSA Account",
+    id: 1,
+    amount:null,
+  },
+  {
+    name: "RRSP Account",
+    id: 2,
+    amount:null,
+  }
+]
+
+
+//------------------ 3 REDUCERS------------------
 const incomeReducer = (state, action) => {
   switch (action.type) {
     case "record-typing-income": {
@@ -49,6 +71,7 @@ const incomeReducer = (state, action) => {
     }
   }
 };
+
 const expenseReducer = (state, action) => {
   switch (action.type) {
     case "record-typing-expense": {
@@ -77,6 +100,44 @@ const expenseReducer = (state, action) => {
     }
   }
 };
+
+const savingsReducer = (state, action) => {
+  switch (action.type) {
+     case "record-typing-saving" : {
+      let copyArray = [...state];
+      copyArray[action.index][action.fieldType] = action.value;
+
+      return [...copyArray];
+     }
+     case "add-saving-stream": {
+      let copyArray = [...state];
+      copyArray.push({
+        name: action.labelState,
+        id: action.counterIds,
+        amount: null,
+      });
+
+      return [...copyArray];
+    }
+    case "remove-saving-stream": {
+      let copyArray = [...state];
+
+      const newValues = copyArray.filter((item, i) => i !== action.index);
+
+      return [...newValues];
+    }
+
+  }
+}
+
+
+
+
+
+
+
+
+//---------------------PROVIDER---------------------
 export const BudgetProvider = ({ children }) => {
   const [incomeState, dispatchIncome] = useReducer(
     incomeReducer,
@@ -87,6 +148,10 @@ export const BudgetProvider = ({ children }) => {
     initialExpenseState
   );
 
+  const [ savingsState, dispatchSavings] = useReducer(
+    savingsReducer, initialSavingsState
+  )
+console.log(savingsState,'SAVINGS STATE IN REDUCER!')
   const recordTypingIncome = React.useCallback(
     (data) => {
       dispatchIncome({ type: "record-typing-income", ...data });
@@ -101,6 +166,13 @@ export const BudgetProvider = ({ children }) => {
     [dispatchExpense]
   );
 
+    const recordTypingSaving = React.useCallback(
+      (data)=> {
+        dispatchSavings({ type: "record-typing-saving", ...data})
+      },
+      [dispatchSavings]
+    )
+
   const addIncome = React.useCallback(
     (data) => {
       dispatchIncome({ type: "add-income-stream", ...data });
@@ -114,6 +186,12 @@ export const BudgetProvider = ({ children }) => {
     },
     [dispatchExpense]
   );
+  const addSavings = React.useCallback(
+    (data) => {
+      dispatchSavings({type: "add-saving-stream", ...data})
+    },
+    [dispatchSavings]
+  )
   const removeIncome = React.useCallback(
     (data) => {
       dispatchIncome({ type: "remove-income-stream", ...data });
@@ -128,17 +206,28 @@ export const BudgetProvider = ({ children }) => {
     [dispatchExpense]
   );
 
+  const removeSaving = React.useCallback(
+    (data) => {
+      dispatchExpense({ type: "remove-saving-stream", ...data });
+    },
+    [dispatchExpense]
+  );
+
   return (
     <BudgetContext.Provider
       value={{
         incomeState,
         expenseState,
+        savingsState,
         recordTypingIncome,
         recordTypingExpense,
+        recordTypingSaving,
         addIncome,
         addExpense,
+        addSavings,
         removeIncome,
         removeExpense,
+        removeSaving,
       }}
     >
       {children}
