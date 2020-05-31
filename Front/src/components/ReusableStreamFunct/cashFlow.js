@@ -29,7 +29,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
   } = useContext(BudgetContext);
   const [labelState, setLabelState] = useState("");
   const [currentMapState, setCurrentMapState] = useState(null);
-
+// console.log(currentMapState,'CURRENT STATE')
   const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -58,7 +58,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
   //HANDLE INPUT CHANGES EXISING STREAM
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
-    let value = parseInt(e.target.value);
+    let value = e.target.value;
 
     if (type === "income") {
       recordTypingIncome({ fieldType, index, value });

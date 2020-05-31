@@ -29,16 +29,7 @@ let initialSavingsState = [
     id: 0,
     amount:null,
   },
-  {
-    name: "TFSA Account",
-    id: 1,
-    amount:null,
-  },
-  {
-    name: "RRSP Account",
-    id: 2,
-    amount:null,
-  }
+
 ]
 
 
@@ -120,6 +111,7 @@ const savingsReducer = (state, action) => {
       return [...copyArray];
     }
     case "remove-saving-stream": {
+      console.log(action,"HIT ACTIONS SAVINGS")
       let copyArray = [...state];
 
       const newValues = copyArray.filter((item, i) => i !== action.index);
@@ -151,7 +143,11 @@ export const BudgetProvider = ({ children }) => {
   const [ savingsState, dispatchSavings] = useReducer(
     savingsReducer, initialSavingsState
   )
-console.log(savingsState,'SAVINGS STATE IN REDUCER!')
+// console.log(savingsState,'SAVINGS STATE IN REDUCER!')
+// console.log(expenseState,'expense STATE IN REDUCER!')
+
+// console.log(incomeState,'income STATE IN REDUCER!')
+
   const recordTypingIncome = React.useCallback(
     (data) => {
       dispatchIncome({ type: "record-typing-income", ...data });
@@ -206,11 +202,11 @@ console.log(savingsState,'SAVINGS STATE IN REDUCER!')
     [dispatchExpense]
   );
 
-  const removeSaving = React.useCallback(
+  const removeSavings = React.useCallback(
     (data) => {
-      dispatchExpense({ type: "remove-saving-stream", ...data });
+      dispatchSavings({ type: "remove-saving-stream", ...data });
     },
-    [dispatchExpense]
+    [dispatchSavings]
   );
 
   return (
@@ -227,7 +223,7 @@ console.log(savingsState,'SAVINGS STATE IN REDUCER!')
         addSavings,
         removeIncome,
         removeExpense,
-        removeSaving,
+        removeSavings,
       }}
     >
       {children}

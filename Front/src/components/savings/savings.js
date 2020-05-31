@@ -7,7 +7,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 import { BudgetContext } from "../../budgetContext";
 
-let counterIds = 3;
+let counterIds = 0;
 const Savings = () => {
   const [labelState, setLabelState] = useState("");
   const {
@@ -48,13 +48,14 @@ const Savings = () => {
   };
   //REMOVE SAVINGS
   const removeNewCashFlowTypeHandler = (index) => (e) => {
+   
     removeSavings({ index });
   };
 
   //RECORD TYPING
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
-    let value = parseInt(e.target.value);
+    let value = e.target.value;
     recordTypingSaving({ value, fieldType, index });
   };
 
@@ -64,7 +65,7 @@ const Savings = () => {
       {savingsState.map((item, index) => {
         return (
           <div key={item.id}>
-            {index >= 3 ? (
+            {index > 0 ? (
               <button onClick={removeNewCashFlowTypeHandler(index)}>X</button>
             ) : (
               <div> ? </div>
