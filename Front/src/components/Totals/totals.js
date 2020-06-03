@@ -1,28 +1,43 @@
-import React, { useContext, useState, useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { BudgetContext } from "../../budgetContext";
 
-
 const Totals = () => {
+  const { incomeState, expenseState, savingsState } = useContext(BudgetContext);
 
-const { incomeState, expenseState, savingsState} = useContext(BudgetContext)
+  // const [ totalState, setTotalState ] = useState = ({} )
 
-// const [ totalState, setTotalState ] = useState = ({} )
-console.log(incomeState, "IN TOTALS")
+  useEffect(() => {
+    let totalIncome = incomeState
+      .map((item, i) => {
+        return parseInt(item.amount) * item.frequency;
+      })
+      .reduce((acc, currentVal) => {
+        return acc + currentVal;
+      });
 
-useEffect(()=>{
+    let totalExpense = expenseState
+      .map((item, i) => {
+        return parseInt(item.amount) * item.frequency;
+      })
+      .reduce((acc, currentVal) => {
+        return acc + currentVal;
+      });
 
-    incomeState.map((item, i)=> {
-        console.log(item,'in map', parseInt(item.amount)*item.frequency)
-    })
+    let totalSavings = savingsState
+      .map((item, i) => {
+        return parseInt(item.amount);
+      })
+      .reduce((acc, currentVal) => {
+        return acc + currentVal;
+      });
+    console.log(totalIncome, totalExpense, totalSavings, "TOTALS TESY");
+  }, [incomeState, expenseState, savingsState]);
 
-})
-
-return (
+  return (
     <>
-    <div>yo</div>
+      <div>yo</div>
     </>
-)
+  );
+};
 
-}
-
-export default Totals
+export default Totals;
