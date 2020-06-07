@@ -13,7 +13,7 @@ import Select from "@material-ui/core/Select";
 
 import { BudgetContext } from "../../budgetContext";
 
-// Reusable functional component for expenses and income
+// Reusable functional component for expenses and income*****
 
 let counterIds = 0;
 const CashFlow = ({ type, placeholderForNew }) => {
