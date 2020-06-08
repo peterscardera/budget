@@ -67,6 +67,5 @@ const Totals = () => {
 export default Totals;
 
 const Wrapper = styled.div`
-
-  background: red;
+  
 `;

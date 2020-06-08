@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import styled from "styled-components";
 
 //general styles
 import formStyles from "../form.module.scss";
@@ -10,6 +11,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+//React Icons
+import { RiQuestionLine } from "react-icons/ri";
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 import { BudgetContext } from "../../budgetContext";
 
@@ -29,7 +33,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
   } = useContext(BudgetContext);
   const [labelState, setLabelState] = useState("");
   const [currentMapState, setCurrentMapState] = useState(null);
-// console.log(currentMapState,'CURRENT STATE')
+  // console.log(currentMapState,'CURRENT STATE')
   const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -83,8 +87,6 @@ const CashFlow = ({ type, placeholderForNew }) => {
 
   //HANDLE REMOVING AN INCOME TYPE
   const removeNewCashFlowTypeHandler = (index) => (e) => {
-   
-
     if (type === "income") {
       removeIncome({ index });
     } else if (type === "expense") {
@@ -99,11 +101,20 @@ const CashFlow = ({ type, placeholderForNew }) => {
           return (
             <div key={`${item.id}`} className={formStyles.form}>
               {index > 0 ? (
-                <button onClick={removeNewCashFlowTypeHandler(index)}>
-                  X
-                </button>
+                <StyledButton onClick={removeNewCashFlowTypeHandler(index)}>
+                  <MdRemoveCircleOutline size={"25px"} />
+                </StyledButton>
               ) : (
-                <div> ? </div>
+                <StyledDiv>
+                  <RiQuestionLine size={"25px"} />
+                  <InfoPopUp type={type}>
+                    {type === "expense" ? (
+                      <div>Month </div>
+                    ) : (
+                      <div> After deductions </div>
+                    )}
+                  </InfoPopUp>
+                </StyledDiv>
               )}
               <FormControl className={classes.formControl}>
                 <InputLabel
@@ -163,6 +174,55 @@ const CashFlow = ({ type, placeholderForNew }) => {
 
 export default CashFlow;
 
+const StyledButton = styled.button`
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 25px;
+  padding: 0;
+`;
+const StyledDiv = styled.div`
+  width: 25px;
+  &:hover {
+    span {
+      display: block;
+      z-index: 2;
+    }
+  }
+`;
+
+const InfoPopUp = styled.span`
+  background: #f8f8f8;
+  border: 5px solid #dfdfdf;
+  font-size: 13px;
+  height: 30px;
+  width: 150px;
+  letter-spacing: 1px;
+  position: relative;
+  text-align: center;
+
+  top: -80px;
+  left: -30px;
+  display: none;
+  /* padding: 0 20px; */
+  ${(props) => console.log(props)}
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    width: 10px;
+    height: 10px;
+    border-bottom: 5px solid #dfdfdf;
+    border-right: 5px solid #dfdfdf;
+    background: #f8f8f8;
+    left: 50%;
+    margin-left: -10px;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+`;
 //notes: i have initial state for some key values as "null" instead of null
 //VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null.
 // Consider using an empty string to clear the component or `undefined` for uncontrolled components.

@@ -13,6 +13,8 @@ const EachTotal = ({ id, amount }) => {
 export default EachTotal;
 
 const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
+
+  background: red;
 `;
