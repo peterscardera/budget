@@ -95,7 +95,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
   };
 
   return (
-    <>
+    <Wrapper>
       {currentMapState !== null &&
         currentMapState.map((item, index) => {
           return (
@@ -109,7 +109,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
                   <RiQuestionLine size={"25px"} />
                   <InfoPopUp type={type}>
                     {type === "expense" ? (
-                      <div>Month </div>
+                      <div>Monthly after tax bill</div>
                     ) : (
                       <div> After deductions </div>
                     )}
@@ -168,12 +168,14 @@ const CashFlow = ({ type, placeholderForNew }) => {
         />
         <button type="submit"> Add </button>
       </form>
-    </>
+    </Wrapper>
   );
 };
 
 export default CashFlow;
-
+const Wrapper = styled.div`
+/* background:blue; */
+`
 const StyledButton = styled.button`
   outline: none;
   border: none;
@@ -181,43 +183,49 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 25px;
   padding: 0;
+ 
 `;
 const StyledDiv = styled.div`
   width: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
   &:hover {
+    
     span {
       display: block;
-      z-index: 2;
+   
     }
   }
 `;
 
 const InfoPopUp = styled.span`
   background: #f8f8f8;
-  border: 5px solid #dfdfdf;
+  border: 2px solid #dfdfdf;
   font-size: 13px;
-  height: 30px;
+  /* height: 40px; */
   width: 150px;
-  letter-spacing: 1px;
+  /* letter-spacing: 1px; */
   position: relative;
   text-align: center;
 
-  top: -80px;
-  left: -30px;
+  top: -60px;
+  left: -10px;
   display: none;
   /* padding: 0 20px; */
   ${(props) => console.log(props)}
   &:after {
     content: "";
     position: absolute;
-    bottom: -10px;
+    bottom: -7px;
     width: 10px;
     height: 10px;
-    border-bottom: 5px solid #dfdfdf;
-    border-right: 5px solid #dfdfdf;
+    border-bottom: 2px solid #dfdfdf;
+    border-right: 2px solid #dfdfdf;
     background: #f8f8f8;
-    left: 50%;
-    margin-left: -10px;
+    left: 20%;
+    /* margin-left: -10px; */
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);

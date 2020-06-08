@@ -1,11 +1,16 @@
 import React, { useContext, useState } from "react";
+import styled from "styled-components";
+import { DefaultTitle } from "../reusable SC/title";
+//Material UI
 import FormControl from "@material-ui/core/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
+//Context
 import { BudgetContext } from "../../budgetContext";
+//React icons
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 let counterIds = 0;
 const Savings = () => {
@@ -48,7 +53,6 @@ const Savings = () => {
   };
   //REMOVE SAVINGS
   const removeNewCashFlowTypeHandler = (index) => (e) => {
-   
     removeSavings({ index });
   };
 
@@ -61,17 +65,18 @@ const Savings = () => {
 
   return (
     <>
-      <div>Savings</div>
+      <DefaultTitle>Savings</DefaultTitle>
       {savingsState.map((item, index) => {
         return (
           <div key={item.id}>
-            {index > 0 ? (
-              <button onClick={removeNewCashFlowTypeHandler(index)}>X</button>
-            ) : (
-              <div> ? </div>
+            {index > 0 && (
+              <StyledButton onClick={removeNewCashFlowTypeHandler(index)}>
+                {" "}
+                <MdRemoveCircleOutline size={"25px"} />
+              </StyledButton>
             )}
             <FormControl
-              fullWidth
+              width={"200px"}
               className={classes.margin}
               variant="outlined"
             >
@@ -79,6 +84,7 @@ const Savings = () => {
                 {item.name}
               </InputLabel>
               <OutlinedInput
+                width={"100px"}
                 id="outlined-adornment-amount"
                 value={item.amount}
                 onChange={handleChange("amount", index)}
@@ -108,3 +114,14 @@ const Savings = () => {
 };
 
 export default Savings;
+
+const StyledButton = styled.button`
+  outline: none;
+  border: none;
+  /* background: red; */
+  cursor: pointer;
+  width: 25px;
+  padding: 0;
+  /* display:flex;
+  justify-content:center; */
+`;

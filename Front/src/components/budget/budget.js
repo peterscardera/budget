@@ -11,7 +11,7 @@ const Budget = () => {
   return (
     <>
       <h1>Budget</h1>
-      <h1>Results</h1>
+    
       <GlobalStyle/>
       <ThemeProvider theme={theme}>
         <Wrapper>
@@ -31,11 +31,14 @@ const Wrapper = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 700px;
-  height: 600px;
-  background: pink;
-`;
+  height: 700px;
+  box-shadow:0 0 10px 2px rgba(0,0,0,.25);
+  background:white;
+  
+  
+  `;
 
 
 const theme = {
@@ -51,6 +54,7 @@ const theme = {
 const GlobalStyle = createGlobalStyle`
 html {
     box-sizing: border-box;
+    background:#eee
    
   }
   *, *:before, *:after {

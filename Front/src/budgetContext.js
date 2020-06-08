@@ -24,7 +24,7 @@ let initialExpenseState = [
 
 let initialSavingsState = [
   {
-    name: "Savings Account",
+    name: "Savings",
     id: 0,
     amount: null,
   },
