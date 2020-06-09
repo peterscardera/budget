@@ -66,6 +66,8 @@ const Savings = () => {
   return (
     <>
       <DefaultTitle>Savings</DefaultTitle>
+      <FirstRow> 
+   
       {savingsState.map((item, index) => {
         return (
           <div key={item.id}>
@@ -109,6 +111,7 @@ const Savings = () => {
         />
         <button type="submit"> Add </button>
       </form>
+      </FirstRow>
     </>
   );
 };
@@ -124,4 +127,8 @@ const StyledButton = styled.button`
   padding: 0;
   /* display:flex;
   justify-content:center; */
+`;
+
+const FirstRow = styled.div`
+  margin: 20px 40px;
 `;

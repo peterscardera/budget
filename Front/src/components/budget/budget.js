@@ -10,9 +10,9 @@ import Totals from "../Totals";
 const Budget = () => {
   return (
     <>
-      <h1>Budget</h1>
-    
-      <GlobalStyle/>
+      <h1>Budget Planner</h1>
+
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Wrapper>
           <Income></Income>
@@ -33,13 +33,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 700px;
-  height: 700px;
-  box-shadow:0 0 10px 2px rgba(0,0,0,.25);
-  background:white;
-  
-  
-  `;
-
+  height: auto;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.25);
+  background: white;
+`;
 
 const theme = {
   blue: "#335075",
@@ -48,7 +45,6 @@ const theme = {
   lightgrey: "#E1E1E1",
   offWhite: "#EDEDED",
   // maxWidth: "1000px",
-
 };
 
 const GlobalStyle = createGlobalStyle`

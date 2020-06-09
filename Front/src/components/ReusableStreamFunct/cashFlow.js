@@ -109,50 +109,53 @@ const CashFlow = ({ type, placeholderForNew }) => {
                   <RiQuestionLine size={"25px"} />
                   <InfoPopUp type={type}>
                     {type === "expense" ? (
-                      <div>Monthly after tax bill</div>
+                      <span>Monthly after tax bill</span>
                     ) : (
-                      <div> After deductions </div>
+                      <span> After deductions </span>
                     )}
                   </InfoPopUp>
                 </StyledDiv>
               )}
-              <FormControl className={classes.formControl}>
-                <InputLabel
-                  shrink
-                  id="demo-simple-select-placeholder-label-label"
-                >
-                  {item.name}
-                </InputLabel>
-                <Select
-                  displayEmpty={true}
+              <FirstRow>
+                <FormControl className={classes.formControl}>
+                  <InputLabel
+                    shrink
+                    id="demo-simple-select-placeholder-label-label"
+                  >
+                    {item.name}
+                  </InputLabel>
+                  <Select
+                    displayEmpty={true}
+                    name={item.name}
+                    labelId={item.name}
+                    id={`select-${index}`}
+                    value={currentMapState[`${index}`].frequency}
+                    onChange={handleChange("frequency", index)}
+                  >
+                    {/* the value had to math the state freq value below (to have a default value placeholder) */}
+                    <MenuItem selected disabled value={"null"}>
+                      <em>Choose Freq. </em>
+                    </MenuItem>
+                    <MenuItem value={253}>Daily</MenuItem>
+                    <MenuItem value={52}>Weekly</MenuItem>
+                    <MenuItem value={26}>Bi-Weekly</MenuItem>
+                    <MenuItem value={12}>Monthly</MenuItem>
+                    <MenuItem value={4}>Quarterly</MenuItem>
+                    <MenuItem value={3}>Every 6 months</MenuItem>
+                    <MenuItem value={1}>Anually</MenuItem>
+                  </Select>
+                </FormControl>
+                <StyledInput
+                
+                  required
                   name={item.name}
-                  labelId={item.name}
-                  id={`select-${index}`}
-                  value={currentMapState[`${index}`].frequency}
-                  onChange={handleChange("frequency", index)}
-                >
-                  {/* the value had to math the state freq value below (to have a default value placeholder) */}
-                  <MenuItem selected disabled value={"null"}>
-                    <em>Choose Freq. </em>
-                  </MenuItem>
-                  <MenuItem value={253}>Daily</MenuItem>
-                  <MenuItem value={52}>Weekly</MenuItem>
-                  <MenuItem value={26}>Bi-Weekly</MenuItem>
-                  <MenuItem value={12}>Monthly</MenuItem>
-                  <MenuItem value={4}>Quarterly</MenuItem>
-                  <MenuItem value={3}>Every 6 months</MenuItem>
-                  <MenuItem value={1}>Anually</MenuItem>
-                </Select>
-              </FormControl>
-              <input
-                required
-                name={item.name}
-                id={`input-${index}${type}`}
-                value={currentMapState[`${index}`].amount}
-                onChange={handleChange("amount", index)}
-                type="text"
-                placeholder="0.00"
-              />
+                  id={`input-${index}${type}`}
+                  value={currentMapState[`${index}`].amount}
+                  onChange={handleChange("amount", index)}
+                  type="text"
+                  placeholder="$0.00"
+                />
+              </FirstRow>
             </div>
           );
         })}
@@ -174,8 +177,16 @@ const CashFlow = ({ type, placeholderForNew }) => {
 
 export default CashFlow;
 const Wrapper = styled.div`
-/* background:blue; */
-`
+  /* background:blue; */
+  margin: 20px 40px;
+`;
+
+//FirstRow contains the input select and the amount
+const FirstRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
 const StyledButton = styled.button`
   outline: none;
   border: none;
@@ -183,19 +194,16 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 25px;
   padding: 0;
- 
 `;
 const StyledDiv = styled.div`
   width: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+
   &:hover {
-    
     span {
       display: block;
-   
     }
   }
 `;
@@ -229,6 +237,24 @@ const InfoPopUp = styled.span`
     -moz-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+`;
+
+const StyledInput = styled.input`
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding-top: 25px;
+  padding-left: 15px;
+  outline: none;
+  &:focus {
+    border-bottom: 1.5px solid ${(props) => props.theme.grey};
+  }
+
+  &:before {
+    content: "te";
+    width: 10px;
+    height: 10px;
   }
 `;
 //notes: i have initial state for some key values as "null" instead of null

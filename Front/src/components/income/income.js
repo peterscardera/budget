@@ -7,14 +7,9 @@ const Income = () => {
   return (
     <>
       <DefaultTitle>Income </DefaultTitle>
-      <CashFlow
-        // defaultLabel="Net Salary"
-        placeholderForNew="Income Type"
-        type="income"
-      ></CashFlow>
+      <CashFlow placeholderForNew="Income Type" type="income"></CashFlow>
     </>
   );
 };
 
 export default Income;
-

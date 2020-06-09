@@ -6,14 +6,9 @@ const Expenses = () => {
   return (
     <>
       <DefaultTitle>Expenses </DefaultTitle>
-      <CashFlow
-        // defaultLabel="Cell phone"
-        type="expense"
-        placeholderForNew="Expense Type"
-      ></CashFlow>
+      <CashFlow type="expense" placeholderForNew="Expense Type"></CashFlow>
     </>
   );
 };
 
 export default Expenses;
-

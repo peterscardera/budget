@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { BudgetContext } from "../../budgetContext";
 import styled from "styled-components";
+import { DefaultTitle } from "../reusable SC/title";
 
 import EachTotal from "./EachTotal";
 
@@ -58,8 +59,13 @@ const Totals = () => {
 
   return (
     <Wrapper>
-      {totalState !== null &&
+      <DefaultTitle>Totals</DefaultTitle>
+      <Flex>
+
+          {totalState !== null &&
         totalState.map((item) => <EachTotal key={item.id} {...item} />)}
+      </Flex>
+    
     </Wrapper>
   );
 };
@@ -67,5 +73,10 @@ const Totals = () => {
 export default Totals;
 
 const Wrapper = styled.div`
-  
+  height: 200px;
 `;
+const Flex = styled.div`
+display:flex;
+background:pink;
+width: 100%;
+`
