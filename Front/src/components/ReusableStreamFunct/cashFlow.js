@@ -146,7 +146,6 @@ const CashFlow = ({ type, placeholderForNew }) => {
                   </Select>
                 </FormControl>
                 <StyledInput
-                
                   required
                   name={item.name}
                   id={`input-${index}${type}`}
@@ -222,7 +221,6 @@ const InfoPopUp = styled.span`
   left: -10px;
   display: none;
   /* padding: 0 20px; */
-  ${(props) => console.log(props)}
   &:after {
     content: "";
     position: absolute;

@@ -40,7 +40,6 @@ const StyledImg = styled.img`
 `;
 
 const StyledAmt = styled.div`
-${(props) => console.log(props)}
   color: ${(props) =>
     parseInt(props.children) === 0 ? "black" :  parseInt(props.children) >= 1 ? "green" : "red"};
 `;

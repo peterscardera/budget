@@ -11,7 +11,7 @@ const Totals = () => {
 
   const [totalState, setTotalState] = useState(null);
   const [initialTimeFrame, setInitialTimeFrame] = useState("yearly");
-  console.log(totalState);
+  // console.log(totalState);
 
   useEffect(() => {
     // by multiplying it by its frequence im annualizing each one

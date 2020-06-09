@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import Income from "../income";
 import Expenses from "../expenses";
 import Savings from "../savings";
 import Totals from "../Totals";
+import Visualization from "../d3/d3";
 //budget is the parent component of income and expenses who each reuse the cashFlow.js component
 
 const Budget = () => {
+  //true will show the budget and false the vizualization
+  const [pageState, setPageState] = useState(true);
+
+  const handleButton = (page) => {
+    setPageState(page);
+  };
+
   return (
     <>
-      <h1>Budget Planner</h1>
+      <StyledHOne>Budget Planner</StyledHOne>
 
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Income></Income>
-          <Expenses></Expenses>
-          <Savings></Savings>
-          <Totals></Totals>
-        </Wrapper>
+        <ButtonContainer>
+          <StyledButton onClick={() => handleButton(true)}>Budget</StyledButton>
+          <StyledButton onClick={() => handleButton(false)}>
+            Visualize
+          </StyledButton>
+        </ButtonContainer>
+        {pageState === true ? (
+          <Wrapper>
+            <Income></Income>
+            <Expenses></Expenses>
+            <Savings></Savings>
+            <Totals></Totals>
+          </Wrapper>
+        ) : (
+          <Visualization></Visualization>
+        )}
       </ThemeProvider>
     </>
   );
@@ -68,3 +86,12 @@ html {
   }
   button {  font-family: 'radnika_next'; }
 `;
+
+const StyledHOne = styled.h1`
+  text-align: center;
+  font-size: 2rem;
+`;
+
+const ButtonContainer = styled.div``;
+
+const StyledButton = styled.button``;
