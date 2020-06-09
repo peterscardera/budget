@@ -3,13 +3,16 @@ import { BudgetContext } from "../../budgetContext";
 import styled from "styled-components";
 import { DefaultTitle } from "../reusable SC/title";
 
+//child component of mapped out totalState
 import EachTotal from "./EachTotal";
 
 const Totals = () => {
   const { incomeState, expenseState, savingsState } = useContext(BudgetContext);
 
   const [totalState, setTotalState] = useState(null);
+  const [initialTimeFrame, setInitialTimeFrame] = useState("yearly");
   console.log(totalState);
+
   useEffect(() => {
     // by multiplying it by its frequence im annualizing each one
     let totalIncomeAmt = incomeState
@@ -49,23 +52,34 @@ const Totals = () => {
       });
     let grandTotalAmt = totalIncomeAmt - totalExpenseAmt;
 
-    setTotalState([
-      { id: "totalIncome", amount: totalIncomeAmt },
-      { id: "totalExpense", amount: totalExpenseAmt },
-      { id: "grandTotal", amount: grandTotalAmt },
-      { id: "totalSavings", amount: totalSavingsAmt },
-    ]);
+    if (initialTimeFrame === "yearly") {
+      setTotalState([
+        { id: "totalIncome", amount: totalIncomeAmt },
+        { id: "totalExpense", amount: totalExpenseAmt },
+        { id: "grandTotal", amount: grandTotalAmt },
+        { id: "totalSavings", amount: totalSavingsAmt },
+      ]);
+    } else if (initialTimeFrame === "monthly") {
+      setTotalState([
+        { id: "totalIncome", amount: totalIncomeAmt/12 },
+        { id: "totalExpense", amount: totalExpenseAmt/12 },
+        { id: "grandTotal", amount: grandTotalAmt/12 },
+        { id: "totalSavings", amount: totalSavingsAmt },
+      ]);
+    }
+
+
+
   }, [incomeState, expenseState, savingsState]);
 
   return (
     <Wrapper>
       <DefaultTitle>Totals</DefaultTitle>
+      INSERT SELECTOR DEFAULT IS YEARLY 
       <Flex>
-
-          {totalState !== null &&
-        totalState.map((item) => <EachTotal key={item.id} {...item} />)}
+        {totalState !== null &&
+          totalState.map((item) => <EachTotal key={item.id} {...item} />)}
       </Flex>
-    
     </Wrapper>
   );
 };
@@ -76,7 +90,7 @@ const Wrapper = styled.div`
   height: 200px;
 `;
 const Flex = styled.div`
-display:flex;
-background:pink;
-width: 100%;
-`
+  display: flex;
+  background: pink;
+  width: 100%;
+`;

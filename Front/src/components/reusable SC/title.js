@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled, { css } from "styled-components";
 
 const StyledTitle = css`
   height: 60px;
@@ -12,7 +12,6 @@ const StyledTitle = css`
   align-items: center;
 `;
 
-
 export const DefaultTitle = styled.div`
-${StyledTitle}
-`
+  ${StyledTitle}
+`;

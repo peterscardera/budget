@@ -5,6 +5,8 @@ import expense from "../../cash.png";
 import income from "../../income.png";
 import savings from "../../savings.png";
 import total from "../../fund.png";
+//helper for amounts
+import converter from "../helpers/fundscleaner";
 
 const EachTotal = ({ id, amount }) => {
   return (
@@ -20,7 +22,7 @@ const EachTotal = ({ id, amount }) => {
           id === "grandTotal" && <StyledImg src={total} />
         )}
       </div>
-      <StyledAmt>{amount}</StyledAmt>
+      <StyledAmt>{amount.toLocaleString()}</StyledAmt>
     </Wrapper>
   );
 };
@@ -38,6 +40,7 @@ const StyledImg = styled.img`
 `;
 
 const StyledAmt = styled.div`
+${(props) => console.log(props)}
   color: ${(props) =>
-    props.children === 0 ? "black" : props.children >= 1 ? "green" : "red"};
+    parseInt(props.children) === 0 ? "black" :  parseInt(props.children) >= 1 ? "green" : "red"};
 `;
