@@ -54,7 +54,7 @@ const incomeReducer = (state, action) => {
       let copyArray = [...state];
 
       const newValues = copyArray.filter((item, i) => i !== action.index);
-
+     
       return [...newValues];
     }
     default:

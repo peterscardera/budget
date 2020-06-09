@@ -18,15 +18,22 @@ const Budget = () => {
 
   return (
     <>
-      <StyledHOne>Budget Planner</StyledHOne>
-
       <GlobalStyle />
       <ThemeProvider theme={theme}>
+        <StyledHOne>Budget Planner</StyledHOne>
         <ButtonContainer>
-          <StyledButton onClick={() => handleButton(true)}>Budget</StyledButton>
-          <StyledButton onClick={() => handleButton(false)}>
+          <BudgetButton
+            pageState={pageState}
+            onClick={() => handleButton(true)}
+          >
+            Budget
+          </BudgetButton>
+          <VisualizeButton
+            pageState={pageState}
+            onClick={() => handleButton(false)}
+          >
             Visualize
-          </StyledButton>
+          </VisualizeButton>
         </ButtonContainer>
         {pageState === true ? (
           <Wrapper>
@@ -90,8 +97,44 @@ html {
 const StyledHOne = styled.h1`
   text-align: center;
   font-size: 2rem;
+  color: ${(props) => props.theme.grey};
 `;
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+  margin: 0 auto;
+  width: 700px;
+  /* background: red; */
+  /* display: flex;
+  justify-content: center; */
+`;
 
-const StyledButton = styled.button``;
+const BudgetButton = styled.button`
+  outline: none;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: ${(props) => props.theme.fontFamily};
+  padding-bottom: none;
+  background: ${(props) => props.theme.grey};
+
+  color: ${(props) =>
+    props.pageState === true ? props.theme.lightgrey : "white"};
+`;
+
+//*TODO: refactor this without using two separate SCs
+const VisualizeButton = styled.button`
+  outline: none;
+  cursor: pointer;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: ${(props) => props.theme.fontFamily};
+  padding-bottom: none;
+  background: ${(props) => props.theme.grey};
+
+  color: ${(props) =>
+    props.pageState === false ? props.theme.lightgrey : "white"};
+`;
