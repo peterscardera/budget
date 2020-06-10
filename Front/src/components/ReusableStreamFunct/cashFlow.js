@@ -173,7 +173,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
             </div>
           );
         })}
-      <form onSubmit={addCashFlowTypeHandler}>
+      <StyledForm onSubmit={addCashFlowTypeHandler}>
         <label name="addLablel"></label>
         <input
           required
@@ -183,8 +183,11 @@ const CashFlow = ({ type, placeholderForNew }) => {
           onChange={handleLableInputChange}
           placeholder={placeholderForNew}
         />
-        <StyledButton type="submit"> <MdAddBox size={24} /> </StyledButton>
-      </form>
+        <StyledButton type="submit">
+       
+          <MdAddBox size={26} style={type === "income" ? {color:"green"} : {color:"red"}} />
+        </StyledButton>
+      </StyledForm>
     </Wrapper>
   );
 };
@@ -201,6 +204,10 @@ const FirstRow = styled.div`
   justify-content: space-between;
   width: 100%;
 `;
+const StyledForm = styled.form`
+  margin: 20px 0px 0px;
+  display: flex;
+`;
 const StyledButton = styled.button`
   outline: none;
   border: none;
@@ -208,6 +215,7 @@ const StyledButton = styled.button`
   cursor: pointer;
   width: 25px;
   padding: 0;
+  /* background: red; */
 `;
 const StyledDiv = styled.div`
   width: 25px;
@@ -270,12 +278,6 @@ const StyledInput = styled.input`
     height: 10px;
   }
 `;
-
-
-
-
-
-
 
 //notes: i have initial state for some key values as "null" instead of null
 //VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null.

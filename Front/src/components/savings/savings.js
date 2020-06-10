@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { BudgetContext } from "../../budgetContext";
 //React icons
 import { MdRemoveCircleOutline } from "react-icons/md";
+import { MdAddBox } from "react-icons/md";
 
 let counterIds = 0;
 const Savings = () => {
@@ -113,7 +114,7 @@ const Savings = () => {
             </div>
           );
         })}
-        <form onSubmit={addCashFlowTypeHandler}>
+        <StyledForm onSubmit={addCashFlowTypeHandler}>
           <label name="addLablel"></label>
           <input
             required
@@ -123,8 +124,9 @@ const Savings = () => {
             onChange={handleLableInputChange}
             placeholder="Add Savings Type"
           />
-          <button type="submit"> Add </button>
-        </form>
+          <StyledButton type="submit"> <MdAddBox size={26} style={{color:"green"}} />
+ </StyledButton>
+        </StyledForm>
       </FirstRow>
     </>
   );
@@ -146,4 +148,9 @@ const StyledButton = styled.button`
 
 const FirstRow = styled.div`
   margin: 20px 50px;
+`;
+
+const StyledForm = styled.form`
+  margin: 20px 0px 0px;
+  display: flex;
 `;
