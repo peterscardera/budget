@@ -61,21 +61,18 @@ const Totals = () => {
       ]);
     } else if (initialTimeFrame === "monthly") {
       setTotalState([
-        { id: "totalIncome", amount: totalIncomeAmt/12 },
-        { id: "totalExpense", amount: totalExpenseAmt/12 },
-        { id: "grandTotal", amount: grandTotalAmt/12 },
+        { id: "totalIncome", amount: totalIncomeAmt / 12 },
+        { id: "totalExpense", amount: totalExpenseAmt / 12 },
+        { id: "grandTotal", amount: grandTotalAmt / 12 },
         { id: "totalSavings", amount: totalSavingsAmt },
       ]);
     }
-
-
-
   }, [incomeState, expenseState, savingsState]);
 
   return (
     <Wrapper>
       <DefaultTitle>Totals</DefaultTitle>
-      INSERT SELECTOR DEFAULT IS YEARLY 
+      {/* INSERT SELECTOR DEFAULT IS YEARLY  */}
       <Flex>
         {totalState !== null &&
           totalState.map((item) => <EachTotal key={item.id} {...item} />)}
@@ -87,10 +84,11 @@ const Totals = () => {
 export default Totals;
 
 const Wrapper = styled.div`
-  height: 200px;
+  height: 140px;
 `;
 const Flex = styled.div`
+  margin: 20px 0px;
   display: flex;
-  background: pink;
+  /* background: pink; */
   width: 100%;
 `;

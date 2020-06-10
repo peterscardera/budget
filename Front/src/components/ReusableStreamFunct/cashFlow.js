@@ -6,6 +6,7 @@ import formStyles from "../form.module.scss";
 
 //MATERIAL UI selector
 import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -14,6 +15,7 @@ import Select from "@material-ui/core/Select";
 //React Icons
 import { RiQuestionLine } from "react-icons/ri";
 import { MdRemoveCircleOutline } from "react-icons/md";
+import { MdAddBox } from "react-icons/md";
 
 import { BudgetContext } from "../../budgetContext";
 
@@ -145,7 +147,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
                     <MenuItem value={1}>Anually</MenuItem>
                   </Select>
                 </FormControl>
-                <StyledInput
+                {/* <StyledInput
                   required
                   name={item.name}
                   id={`input-${index}${type}`}
@@ -153,6 +155,19 @@ const CashFlow = ({ type, placeholderForNew }) => {
                   onChange={handleChange("amount", index)}
                   type="text"
                   placeholder="$0.00"
+                /> */}
+                <TextField
+                  inputProps={{ min: 0, max: 100 }}
+                  style={{ width: 110, paddingTop: "10px" }}
+                  fullWidth
+                  id={`input-${index}${type}`}
+                  value={currentMapState[`${index}`].amount}
+                  label={item.name}
+                  type="number"
+                  onChange={handleChange("amount", index)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </FirstRow>
             </div>
@@ -168,7 +183,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
           onChange={handleLableInputChange}
           placeholder={placeholderForNew}
         />
-        <button type="submit"> Add </button>
+        <StyledButton type="submit"> <MdAddBox size={24} /> </StyledButton>
       </form>
     </Wrapper>
   );
@@ -255,6 +270,13 @@ const StyledInput = styled.input`
     height: 10px;
   }
 `;
+
+
+
+
+
+
+
 //notes: i have initial state for some key values as "null" instead of null
 //VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null.
 // Consider using an empty string to clear the component or `undefined` for uncontrolled components.

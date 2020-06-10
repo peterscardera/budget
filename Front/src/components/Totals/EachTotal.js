@@ -22,7 +22,7 @@ const EachTotal = ({ id, amount }) => {
           id === "grandTotal" && <StyledImg src={total} />
         )}
       </div>
-      <StyledAmt>{amount.toLocaleString()}</StyledAmt>
+      <StyledAmt id={id}>{amount.toLocaleString()}</StyledAmt>
     </Wrapper>
   );
 };
@@ -41,5 +41,6 @@ const StyledImg = styled.img`
 
 const StyledAmt = styled.div`
   color: ${(props) =>
-    parseInt(props.children) === 0 ? "black" :  parseInt(props.children) >= 1 ? "green" : "red"};
+    parseInt(props.children) === 0 ? "black" :  parseInt(props.children) >= 1 && props.id !== "totalExpense" ? "green" : "red"};
+
 `;
