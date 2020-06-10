@@ -22,18 +22,12 @@ const Budget = () => {
       <ThemeProvider theme={theme}>
         <StyledHOne>Budget Planner</StyledHOne>
         <ButtonContainer>
-          <BudgetButton
-            pageState={pageState}
-            onClick={() => handleButton(true)}
-          >
+          <StyledTab pageState={pageState} onClick={() => handleButton(true)}>
             Budget
-          </BudgetButton>
-          <VisualizeButton
-            pageState={pageState}
-            onClick={() => handleButton(false)}
-          >
+          </StyledTab>
+          <StyledTab pageState={pageState} onClick={() => handleButton(false)}>
             Visualize
-          </VisualizeButton>
+          </StyledTab>
         </ButtonContainer>
         {pageState === true ? (
           <Wrapper>
@@ -108,33 +102,26 @@ const ButtonContainer = styled.div`
   justify-content: center; */
 `;
 
-const BudgetButton = styled.button`
+const StyledTab = styled.button`
   outline: none;
   cursor: pointer;
   border: none;
+  height: 50px;
+  width: 160px;
+  margin-right: 5px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   font-size: 1.5rem;
   font-weight: 400;
   text-transform: uppercase;
   font-family: ${(props) => props.theme.fontFamily};
   padding-bottom: none;
-  background: ${(props) => props.theme.grey};
+  background: ${(props) =>
+    props.children === "Budget" && props.pageState === true
+      ? props.theme.blue
+      : props.children === "Visualize" && props.pageState === false
+      ? props.theme.blue
+      : "RGBA(51,80,117,0.65)"};
+  color: white;
 
-  color: ${(props) =>
-    props.pageState === true ? props.theme.lightgrey : "white"};
-`;
-
-//*TODO: refactor this without using two separate SCs
-const VisualizeButton = styled.button`
-  outline: none;
-  cursor: pointer;
-  border: none;
-  font-size: 1.5rem;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-family: ${(props) => props.theme.fontFamily};
-  padding-bottom: none;
-  background: ${(props) => props.theme.grey};
-
-  color: ${(props) =>
-    props.pageState === false ? props.theme.lightgrey : "white"};
 `;

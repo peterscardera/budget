@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useContext } from "react";
 import { BudgetContext } from "../../budgetContext";
-
+import { DefaultTitle } from "../reusable SC/title";
+import styled from "styled-components";
 import * as d3 from "d3";
 //I'll let D3 handle the Dom over React.
 
 const Visualization = () => {
-//   const data = [25, 30, 45, 60, 20];
+  //   const data = [25, 30, 45, 60, 20];
   const { incomeState, expenseState, savingsState } = useContext(BudgetContext);
-  console.log(incomeState);
+  console.log(expenseState);
   const pieC = useRef();
   const createPie = d3
     .pie()
@@ -18,7 +19,15 @@ const Visualization = () => {
   const format = d3.format(".2f");
 
   useEffect(() => {
-    const data = createPie([{date:1,value:200}]);
+    let rawData = expenseState.map((eachExp, i) => {
+      return {
+        data: eachExp.id,
+        value: eachExp.frequency * parseInt(eachExp.amount),
+      };
+    });
+    console.log(rawData);
+    // const data = createPie([{date:1,value:200}, {date:2,value:40}]);
+    const data = createPie(rawData);
     const group = d3.select(pieC.current);
     const groupWithData = group.selectAll("g.arc").data(data);
 
@@ -85,12 +94,37 @@ const Visualization = () => {
 
   return (
     <>
-      <div> test</div>
-      <svg width={200} height={200}>
-        <g ref={pieC} transform={`translate(${100} ${100})`} />
-      </svg>
+      <Wrapper>
+        <DefaultTitle> Expense Breakdown </DefaultTitle>
+        <SvgContainer>
+          {expenseState[0].amount !== null ? (
+            <svg width={200} height={200}>
+              <g ref={pieC} transform={`translate(${100} ${100})`} />
+            </svg>
+          ) : (
+            <div> Add an expense </div>
+          )}
+        </SvgContainer>
+      </Wrapper>
     </>
   );
 };
 
 export default Visualization;
+
+const Wrapper = styled.div`
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 700px;
+  height: auto;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.25);
+  background: white;
+`;
+
+const SvgContainer = styled.div`
+  margin: 30px 0px;
+  display: flex;
+  justify-content: center;
+`;
