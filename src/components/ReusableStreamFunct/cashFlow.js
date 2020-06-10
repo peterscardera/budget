@@ -64,7 +64,7 @@ const CashFlow = ({ type, placeholderForNew }) => {
   //HANDLE INPUT CHANGES EXISING STREAM
   const handleChange = (fieldType, index) => (e) => {
     e.preventDefault();
-    let value = e.target.value;
+    let value = e.target.value || 0;
 
     if (type === "income") {
       recordTypingIncome({ fieldType, index, value });
