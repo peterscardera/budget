@@ -1,9 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 
-//general styles
-import formStyles from '../form.module.scss';
-
 //MATERIAL UI selector
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -30,18 +27,17 @@ type ButtonClick = {
     onClick?: (e: React.MouseEvent) => void;
 };
 
-
 let counterIds = 0;
 const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
     const {
         incomeState,
-        expenseState,
-        recordTypingIncome,
-        recordTypingExpense,
-        addIncome,
-        addExpense,
-        removeIncome,
-        removeExpense,
+        // expenseState,
+        // recordTypingIncome,
+        // recordTypingExpense,
+        // addIncome,
+        // addExpense,
+        // removeIncome,
+        // removeExpense,
     } = useContext(BudgetContext);
 
     const [labelState, setLabelState] = useState<string>('');
@@ -95,8 +91,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
     };
 
     //HANDLE ADDING A NEW INCOME TYPE
-    const addCashFlowTypeHandler = (e: MouseEvent) => {
-        e.preventDefault();
+    const addCashFlowTypeHandler = () => {
         counterIds++;
 
         if (type === 'income') {
@@ -123,7 +118,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
             {currentMapState !== null &&
                 currentMapState.map((item, index) => {
                     return (
-                        <div key={`${item.id}`} className={formStyles.form}>
+                        <div key={`${item.id}`}>
                             {index > 0 ? (
                                 <StyledButton onClick={() => removeNewCashFlowTypeHandler(index)}>
                                     <MdRemoveCircleOutline size={'25px'} />
@@ -192,7 +187,11 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
                         </div>
                     );
                 })}
-            <StyledForm onSubmit={() => addCashFlowTypeHandler}>
+            <StyledForm
+                onSubmit={(e) => {
+                    return e.preventDefault(), addCashFlowTypeHandler();
+                }}
+            >
                 <label htmlFor="addLablel" />
                 <input
                     required

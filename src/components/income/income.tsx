@@ -3,6 +3,7 @@ import { DefaultTitle } from "../reusable SC/title";
 
 import CashFlow from "../ReusableStreamFunct";
 
+
 const Income = () => {
   return (
     <>

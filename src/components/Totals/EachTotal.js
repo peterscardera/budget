@@ -6,7 +6,7 @@ import income from "../../income.png";
 import savings from "../../savings.png";
 import total from "../../fund.png";
 //helper for amounts
-import converter from "../helpers/fundscleaner";
+// import converter from "../helpers/fundscleaner";
 
 const EachTotal = ({ id, amount }) => {
   return (
