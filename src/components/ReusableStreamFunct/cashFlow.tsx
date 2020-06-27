@@ -26,6 +26,11 @@ interface Props {
     placeholderForNew?: string;
 }
 
+type ButtonClick = {
+    onClick?: (e: React.MouseEvent) => void;
+};
+
+
 let counterIds = 0;
 const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
     const {
@@ -39,7 +44,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
         removeExpense,
     } = useContext(BudgetContext);
 
-    const [labelState, setLabelState] = useState<string | null>('');
+    const [labelState, setLabelState] = useState<string>('');
     const [currentMapState, setCurrentMapState] = useState<
         | null
         | [
@@ -104,10 +109,8 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
     };
 
     //HANDLE REMOVING AN INCOME TYPE
-    //! REMOVE => (e)
-    const removeNewCashFlowTypeHandler = (index: number) => {
 
-      
+    const removeNewCashFlowTypeHandler = (index: number) => {
         if (type === 'income') {
             removeIncome({ index });
         } else if (type === 'expense') {
@@ -122,7 +125,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
                     return (
                         <div key={`${item.id}`} className={formStyles.form}>
                             {index > 0 ? (
-                                <StyledButton onClick={removeNewCashFlowTypeHandler(index)}>
+                                <StyledButton onClick={() => removeNewCashFlowTypeHandler(index)}>
                                     <MdRemoveCircleOutline size={'25px'} />
                                 </StyledButton>
                             ) : (
@@ -147,7 +150,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
                                         name={item.name}
                                         labelId={item.name}
                                         id={`select-${index}`}
-                                        value={currentMapState[`${index}`].frequency}
+                                        value={currentMapState[index].frequency}
                                         onChange={handleChange('frequency', index)}
                                     >
                                         {/* the value had to math the state freq value below (to have a default value placeholder) */}
@@ -177,7 +180,7 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
                                     style={{ width: 110, paddingTop: '10px' }}
                                     fullWidth
                                     id={`input-${index}${type}`}
-                                    value={currentMapState[`${index}`].amount}
+                                    value={currentMapState[index].amount}
                                     label={item.name}
                                     type="number"
                                     onChange={handleChange('amount', index)}
@@ -189,11 +192,11 @@ const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
                         </div>
                     );
                 })}
-            <StyledForm onSubmit={addCashFlowTypeHandler}>
-                <label name="addLablel"></label>
+            <StyledForm onSubmit={() => addCashFlowTypeHandler}>
+                <label htmlFor="addLablel" />
                 <input
                     required
-                    name="addLabel"
+                    id="addLabel"
                     type="text"
                     value={labelState}
                     onChange={handleLableInputChange}
@@ -223,7 +226,7 @@ const StyledForm = styled.form`
     margin: 20px 0px 0px;
     display: flex;
 `;
-const StyledButton = styled.button`
+const StyledButton = styled.button<ButtonClick>`
     outline: none;
     border: none;
     background: none;
@@ -276,23 +279,23 @@ const InfoPopUp = styled.span<Props>`
     }
 `;
 
-const StyledInput = styled.input`
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    padding-top: 25px;
-    padding-left: 15px;
-    outline: none;
-    &:focus {
-        border-bottom: 1.5px solid ${(props) => props.theme.colors.grey};
-    }
+// const StyledInput = styled.input`
+//     border-top: none;
+//     border-left: none;
+//     border-right: none;
+//     padding-top: 25px;
+//     padding-left: 15px;
+//     outline: none;
+//     &:focus {
+//         border-bottom: 1.5px solid ${(props) => props.theme.colors.grey};
+//     }
 
-    &:before {
-        content: 'te';
-        width: 10px;
-        height: 10px;
-    }
-`;
+//     &:before {
+//         content: 'te';
+//         width: 10px;
+//         height: 10px;
+//     }
+// `;
 
 //notes: i have initial state for some key values as "null" instead of null
 //VM6792 0.chunk.js:51577 Warning: `value` prop on `input` should not be null.
