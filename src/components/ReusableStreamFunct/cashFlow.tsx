@@ -31,13 +31,13 @@ let counterIds = 0;
 const CashFlow: React.FC<Props> = ({ type, placeholderForNew }) => {
     const {
         incomeState,
-        // expenseState,
-        // recordTypingIncome,
-        // recordTypingExpense,
-        // addIncome,
-        // addExpense,
-        // removeIncome,
-        // removeExpense,
+        expenseState,
+        recordTypingIncome,
+        recordTypingExpense,
+        addIncome,
+        addExpense,
+        removeIncome,
+        removeExpense,
     } = useContext(BudgetContext);
 
     const [labelState, setLabelState] = useState<string>('');
